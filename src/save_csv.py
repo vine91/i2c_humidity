@@ -29,9 +29,10 @@ class SaveCsv:
     """ Function to Start Date Thread """
 
     while self.is_started:
-      now = datetime.datetime.now().strftime('%H')
-      print(now)
-      self.present_time = now
+      hour = datetime.datetime.now().strftime('%H')
+      minute = datetime.datetime.now().strftime('%M')
+      print('present time: {0}:{1}\n'.format(hour, minute))
+      self.present_time = hour
       time.sleep(60)
 
   def stop_date_thread(self):
@@ -69,12 +70,13 @@ class SaveCsv:
 
     t, h = str(temperature) + ',', str(humidity) + ','
     date = datetime.datetime.now().strftime('%m/%d')
+    time = datetime.datetime.now().strftime('%H:%M')
 
-    saving_file = open(directory + 'table.csv', 'w')
+    saving_file = open(directory + 'table.csv', 'a')
 
     if self.present_time == '10':
       saving_file.write('\n')
 
-    saving_file.write(date + ',' + self.present_time + ',' + t + h + '\n')
+    saving_file.write(date + ',' + time + ',' + t + h + '\n')
     saving_file.close()
-    print("write csv complete!!")
+    print("write csv complete!!\n")

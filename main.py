@@ -11,6 +11,7 @@ from src import *
 from sys import modules, stderr
 import time, traceback, sys
 
+
 has_record_am = False
 has_record_pm = False
 
@@ -81,11 +82,13 @@ if __name__ == '__main__':
 
         if (has_record_am == False) and (save_csv.get_present_time() == '10'):
           save_csv.make_csv(sht31.get_temperature(), sht31.get_humidity())
+          has_record_am = True
 
         elif (has_record_pm == False) and (save_csv.get_present_time() == '15'):
           save_csv.make_csv(sht31.get_temperature(), sht31.get_humidity())
+          has_record_pm = True
 
     except:
       sht31.end_loop()
       save_csv.stop_date_thread()
-      print("process cancelled.\n\nreconnect ftdi device once.")
+      print("process cancelled.\n\nreconnect ftdi device once.\n")
