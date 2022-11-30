@@ -63,13 +63,35 @@ class Sht31:
 
     return temperature, humidity
 
-  def start(self):
-    """ Function to start sensor. """
+  def start_loop(self):
+    """ Function to start sensor """
 
     print("\n")
 
-    while True:
-      time.sleep(1)
-      t, h = self.get_temp_humi()
-      print("temp: {0}".format(round(t, 2)))
-      print("humi: {0}\n".format(round(h, 2)))
+    time.sleep(1)
+    t, h = self.get_temp_humi()
+
+    if h <= 5:
+      self.temp, self.humi = round(t, 2), round(h, 2)
+      print("temp: {0}".format(self.temp))
+      print("humi: {0}\n".format(self.humi))
+
+    else:
+      self.temp, self.humi = round(t, 2), round(h-5, 2)
+      print("temp: {0}".format(self.temp))
+      print("humi: {0}\n".format(self.humi))
+
+  def end_loop(self):
+    """ Function to End Loop """
+
+    self.i2c.terminate()
+
+  def get_temperature(self):
+    """ Function to Get Temperature """
+
+    return self.temp
+
+  def get_humidity(self):
+    """ Function to Get Humidity """
+
+    return self.humi

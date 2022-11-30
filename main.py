@@ -7,11 +7,12 @@
  *  Contact   - vine9151@gmail.com
 """
 
-from src.i2c_scan import I2CScan, Ftdi, FtdiLogger, ArgumentParser, FileType, Formatter, StreamHandler, add_custom_devices, DEBUG, ERROR
-from src.sht31 import Sht31
+from src import *
 from sys import modules, stderr
 import time, traceback, sys
 
+has_record_am = False
+has_record_pm = False
 
 if __name__ == '__main__':
   """Entry point."""
@@ -71,4 +72,20 @@ if __name__ == '__main__':
   else:
     time.sleep(1)
     sht31 = Sht31(args.device)
-    sht31.start()
+    save_csv = SaveCsv()
+    save_csv.start()
+
+    try:
+      while True:
+        sht31.start_loop()
+
+        if (has_record_am == False) and (save_csv.get_present_time() == '10'):
+          save_csv.make_csv(sht31.get_temperature(), sht31.get_humidity())
+
+        elif (has_record_pm == False) and (save_csv.get_present_time() == '15'):
+          save_csv.make_csv(sht31.get_temperature(), sht31.get_humidity())
+
+    except:
+      sht31.end_loop()
+      save_csv.stop_date_thread()
+      print("process cancelled.\n\nreconnect ftdi device once.")
