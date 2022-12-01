@@ -88,6 +88,10 @@ if __name__ == '__main__':
           save_csv.make_csv(sht31.get_temperature(), sht31.get_humidity())
           has_record_pm = True
 
+        elif save_csv.get_present_time() == '23':
+          has_record_am = False
+          has_record_pm = False
+
     except:
       sht31.end_loop()
       save_csv.stop_date_thread()
