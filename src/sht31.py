@@ -74,7 +74,7 @@ class Sht31:
     if h <= 2:
       self.temp, self.humi = round(t, 2), round(h, 2)
     else:
-      self.temp, self.humi = round((t/100) * 90, 2), round((h/100) * 85, 2)
+      self.temp, self.humi = round((t/100) * 90, 2), round((h/100) * 90, 2)
 
     #self.temp, self.humi = round(t, 2), round(h, 2)
 
